@@ -257,8 +257,10 @@ const data = await response.json();
             if (typeof $ !== 'undefined' && $.g) {
                 modelReady = true;
                 clearInterval(checkModelReady);
-                document.getElementById('status').className = 'status ready';
-                document.getElementById('loading-indicator').textContent = 'API Ready. Model Loaded';
+                const statusEl = document.getElementById('status');
+                const loadingEl = document.getElementById('loading-indicator');
+                if (statusEl) statusEl.className = 'status ready';
+                if (loadingEl) loadingEl.textContent = 'API Ready - Model Loaded';
                 
                 // Set up API endpoint handler
                 setupAPIHandler();
@@ -316,8 +318,10 @@ const data = await response.json();
                         document.querySelector('.container').appendChild(resultDiv);
                     })
                     .catch(error => {
-                        document.getElementById('status').className = 'status error';
-                        document.getElementById('loading-indicator').textContent = 'Error: ' + error.message;
+                        const statusEl = document.getElementById('status');
+                        const loadingEl = document.getElementById('loading-indicator');
+                        if (statusEl) statusEl.className = 'status error';
+                        if (loadingEl) loadingEl.textContent = 'Error: ' + error.message;
                     });
             }
         }
@@ -347,11 +351,12 @@ const data = await response.json();
         // Timeout warning
         setTimeout(() => {
             if (!modelReady) {
-                document.getElementById('status').className = 'status error';
-                document.getElementById('loading-indicator').textContent = '⚠ Model loading timed out. Please refresh the page.';
+                const statusEl = document.getElementById('status');
+                const loadingEl = document.getElementById('loading-indicator');
+                if (statusEl) statusEl.className = 'status error';
+                if (loadingEl) loadingEl.textContent = 'Model loading timed out. Please refresh the page.';
             }
         }, 30000);
     </script>
 </body>
 </html>
-
