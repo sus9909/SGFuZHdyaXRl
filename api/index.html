@@ -258,7 +258,7 @@ const data = await response.json();
                 modelReady = true;
                 clearInterval(checkModelReady);
                 document.getElementById('status').className = 'status ready';
-                document.getElementById('loading-indicator').textContent = '✓ API Ready - Model Loaded';
+                document.getElementById('loading-indicator').textContent = 'API Ready. Model Loaded';
                 
                 // Set up API endpoint handler
                 setupAPIHandler();
@@ -354,3 +354,4 @@ const data = await response.json();
     </script>
 </body>
 </html>
+
