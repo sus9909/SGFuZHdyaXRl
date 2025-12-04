@@ -122,6 +122,22 @@ const data = await response.json();
     <button id="draw-button" style="display:none;"></button>
     <button id="save-button" style="display:none;"></button>
 
+    <script>
+        // Override the d.bin path before loading logic.js
+        // This fixes the hardcoded "/d.bin" path in logic.js
+        (function() {
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+                // Redirect /d.bin requests to the correct path
+                if (url === '/d.bin' || url.endsWith('/d.bin')) {
+                    // Get the base path of current page
+                    const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+                    url = basePath + 'd.bin';
+                }
+                return originalFetch(url, options);
+            };
+        })();
+    </script>
     <script src="logic.js"></script>
     <script>
         let modelReady = false;
