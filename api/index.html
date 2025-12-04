@@ -154,7 +154,8 @@ const data = await response.json();
                     document.getElementById('text-input').value = text;
                     document.getElementById('select-style').value = style;
                     document.getElementById('bias-slider').value = bias;
-                    document.getElementById('speed-slider').value = speed;
+                    // Force speed to maximum for instant generation (backend mode)
+                    document.getElementById('speed-slider').value = '9.51';
                     document.getElementById('width-slider').value = width;
 
                     console.log('[JS] Parameters set in DOM elements');
@@ -172,8 +173,17 @@ const data = await response.json();
 
                     console.log('[JS] originalE() called, waiting for completion...');
 
+                    // Wait longer for all strokes to complete
+                    // The animation uses requestAnimationFrame, so we need to wait for it
+                    const checkInterval = setInterval(() => {
+                        const svgElement = document.getElementById('canvas');
+                        const childCount = svgElement.children.length;
+                        console.log('[JS] Checking canvas... children:', childCount);
+                    }, 200);
+
                     // Wait for completion and convert to PNG
                     setTimeout(() => {
+                        clearInterval(checkInterval);
                         try {
                             const svgElement = document.getElementById('canvas');
                             console.log('[JS] SVG element children count:', svgElement.children.length);
@@ -244,7 +254,7 @@ const data = await response.json();
                         } catch (error) {
                             reject(error);
                         }
-                    }, 3000); // Wait 3 seconds for generation to complete
+                    }, 5000); // Wait 5 seconds for all strokes to complete
                     
                 } catch (error) {
                     reject(error);
